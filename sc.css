@@ -1,0 +1,243 @@
+/* ZeeFrames — "Чем сайт отличается от площадок?", paired-cards variant
+   Composition after Zvonok "Классический робот / Голосовой робот": the heading and the
+   row labels in a left column on hairlines, two cards to the right whose rows line up
+   with the labels, the winning card set apart and marked with a badge, ✦ markers.
+   Built from zeeframes.com parts:
+   - cream section and white bordered cards of "Use cases" / "Process" (service pages);
+   - the accent as zeeframes does it on cream: the black CTA cell of Process
+     ("Want your MVP designed fast?") among white ones, with its faint lime glow;
+   - the ✦ bullets of the Process lists, the lime chip of the /about hero cards;
+   - section title 36/44 of .agency-section-title, the #CDCDCD hairlines of cream sections.
+   Rows of the labels and of both cards share one grid (CSS subgrid).
+   Classes are prefixed .zsc-. No JavaScript. */
+
+.zsc {
+    --zsc-primary: var(--color-primary, #F3FE00);
+    --zsc-page: var(--color-cream-white, #FAF9F4);
+    --zsc-card: var(--color-white, #FFFFFF);
+    --zsc-card-line: var(--color-gray-410, #CDCDCD);
+    --zsc-row-line: var(--color-gray-250, #E4E4E7);
+    --zsc-ink: var(--color-gray-800, #27272A);
+    --zsc-text: var(--color-gray-650, #52525B);
+    --zsc-muted: var(--color-base-muted, #797A71);
+    --zsc-star: var(--color-gray-100, #BDBDBD);
+    --zsc-own: var(--color-black-300, #0B0B0B);
+    --zsc-own-ink: var(--color-white, #FFFFFF);
+    --zsc-own-text: var(--color-white-60, rgba(255, 255, 255, .6));
+    --zsc-own-line: var(--color-white-08, rgba(255, 255, 255, .08));
+    --zsc-chip-ink: var(--color-base-primary-fg, #282601);
+
+    position: relative;
+    padding: 80px 0;
+    background: var(--zsc-page);
+    color: var(--zsc-ink);
+    font-family: "Inter Tight", sans-serif;
+    -webkit-font-smoothing: antialiased;
+}
+
+.zsc *, .zsc *::before, .zsc *::after { box-sizing: border-box; margin: 0; padding: 0; }
+.zsc ul, .zsc ol { list-style: none; }
+.zsc :focus-visible { outline: 2px solid var(--zsc-ink); outline-offset: 2px; }
+
+.zsc-container { max-width: 1400px; margin: 0 auto; padding: 0 var(--zsc-gutter, 60px); }
+
+/* one grid: column 1 = heading + labels, columns 2–3 = the cards; row 1 = heads, rows 2–6 = points */
+.zsc-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-rows: auto repeat(5, auto);
+    column-gap: 24px;
+}
+
+/* ── left column ── */
+.zsc-intro { grid-column: 1; grid-row: 1; padding: 24px 32px 20px 0; }
+.zsc-title {
+    font-size: 36px;
+    line-height: 44px;
+    font-weight: 500;
+    letter-spacing: -0.72px;
+    color: var(--zsc-ink);
+}
+.zsc-desc {
+    grid-column: 1;
+    grid-row: 7;
+    max-width: 380px;
+    margin-top: 20px;
+    padding-right: 32px;
+    font-family: Inter, sans-serif;
+    font-size: 16px;
+    line-height: 24px;
+    color: var(--zsc-text);
+}
+
+.zsc-labels {
+    grid-column: 1;
+    grid-row: 2 / span 5;
+    display: grid;
+    grid-template-rows: subgrid;
+}
+.zsc-labels li {
+    display: flex;
+    align-items: flex-end;
+    gap: 16px;
+    padding: 0 0 20px;
+    border-bottom: 1px solid var(--zsc-card-line);
+    font-size: 18px;
+    line-height: 26px;
+    font-weight: 500;
+    color: var(--zsc-ink);
+}
+.zsc-labels span {
+    font-family: Inter, sans-serif;
+    font-size: 14px;
+    line-height: 26px;
+    font-weight: 400;
+    color: var(--zsc-muted);
+    font-variant-numeric: tabular-nums;
+}
+
+/* ── the cards ── */
+.zsc-card {
+    position: relative;
+    grid-row: 1 / span 6;
+    display: grid;
+    grid-template-rows: subgrid;
+    padding: 0 28px;
+    border: 1px solid var(--zsc-card-line);
+    border-radius: 14px;
+    background: var(--zsc-card);
+    overflow: hidden;
+    isolation: isolate;
+}
+.zsc-card--them { grid-column: 2; }
+.zsc-card--own { grid-column: 3; }
+
+.zsc-card-head { grid-row: 1; padding: 28px 0 24px; }
+.zsc-card-title {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    font-size: 24px;
+    line-height: 32px;
+    font-weight: 500;
+    letter-spacing: -0.36px;
+}
+.zsc-card-sub { margin-top: 4px; font-family: Inter, sans-serif; font-size: 14px; line-height: 20px; color: var(--zsc-muted); }
+
+/* the lime chip next to "Свой сайт", as the +ИИ badge of the reference */
+.zsc-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 3px 10px;
+    border-radius: 999px;
+    background: var(--zsc-primary);
+    font-family: Inter, sans-serif;
+    font-size: 12px;
+    line-height: 18px;
+    font-weight: 500;
+    letter-spacing: 0;
+    color: var(--zsc-chip-ink);
+    white-space: nowrap;
+}
+.zsc-chip svg { width: 10px; height: 10px; fill: currentColor; }
+
+.zsc-list { grid-row: 2 / span 5; display: grid; grid-template-rows: subgrid; }
+.zsc-item { padding: 20px 0 22px; border-top: 1px solid var(--zsc-row-line); }
+.zsc-item:last-child { padding-bottom: 28px; }
+
+.zsc-star { display: block; width: 14px; height: 14px; margin-bottom: 12px; fill: var(--zsc-star); }
+.zsc-tag { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.zsc-item-title { font-size: 16px; line-height: 24px; font-weight: 500; color: var(--zsc-ink); }
+.zsc-item-text { margin-top: 4px; font-family: Inter, sans-serif; font-size: 14px; line-height: 21px; color: var(--zsc-text); }
+.zsc-nw { white-space: nowrap; }
+
+/* the platform card stays quiet */
+.zsc-card--them .zsc-card-title { color: var(--zsc-muted); }
+.zsc-card--them .zsc-item-title { color: var(--zsc-text); }
+.zsc-card--them .zsc-item-text { color: var(--zsc-muted); }
+
+/* ── own site: the black Process CTA cell with its lime glow ── */
+.zsc-card--own { border-color: var(--zsc-own); background: var(--zsc-own); color: var(--zsc-own-ink); }
+.zsc-card--own::before {
+    content: "";
+    position: absolute;
+    right: -220px;
+    top: -220px;
+    width: 460px;
+    height: 460px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(243, 254, 0, .45) 0%, rgba(243, 254, 0, .18) 25%, rgba(243, 254, 0, .05) 55%, transparent 72%);
+    filter: blur(40px);
+    opacity: .5;
+    transition: opacity .3s ease;
+    z-index: -1;
+    pointer-events: none;
+}
+.zsc-card--own:hover::before { opacity: 1; }
+.zsc-card--own .zsc-card-sub { color: var(--color-gray-170, #A1A1AA); }
+.zsc-card--own .zsc-item { border-top-color: var(--zsc-own-line); }
+.zsc-card--own .zsc-star { fill: var(--zsc-primary); }
+.zsc-card--own .zsc-item-title { color: var(--zsc-own-ink); }
+.zsc-card--own .zsc-item-text { color: var(--zsc-own-text); }
+
+.zsc-note {
+    grid-column: 2 / -1;
+    grid-row: 7;
+    margin-top: 20px;
+    font-family: Inter, sans-serif;
+    font-size: 12px;
+    line-height: 18px;
+    color: var(--zsc-muted);
+}
+
+/* ── laptop / tablet ── */
+@media (max-width: 1100px) {
+    .zsc { --zsc-gutter: 40px; }
+    .zsc-grid { grid-template-columns: minmax(0, .72fr) minmax(0, 1fr) minmax(0, 1fr); column-gap: 16px; }
+    .zsc-intro { padding-right: 8px; }
+    .zsc-title { font-size: 28px; line-height: 34px; letter-spacing: -0.5px; }
+    .zsc-desc { padding-right: 8px; font-size: 14px; line-height: 21px; }
+    .zsc-labels li { flex-direction: column; align-items: flex-start; justify-content: flex-end; gap: 0; font-size: 16px; line-height: 24px; }
+    .zsc-card { padding: 0 20px; }
+}
+
+/* ── phone: heading on top, the two cards one under the other, labels move into the points ── */
+@media (max-width: 820px) {
+    .zsc-grid { display: block; }
+    .zsc-intro { padding: 0 0 32px; }
+    .zsc-labels { display: none; }
+    .zsc-card, .zsc-list { display: block; }
+    .zsc-card + .zsc-card { margin-top: 16px; }
+    .zsc-item { padding: 18px 0 20px; }
+    .zsc-star { display: inline-block; vertical-align: -1px; margin: 0 8px 0 0; width: 12px; height: 12px; }
+    .zsc-tag {
+        position: static;
+        width: auto;
+        height: auto;
+        overflow: visible;
+        clip: auto;
+        display: inline;
+        font-family: Inter, sans-serif;
+        font-size: 12px;
+        line-height: 18px;
+        letter-spacing: 0.48px;
+        text-transform: uppercase;
+        color: var(--zsc-muted);
+    }
+    .zsc-card--own .zsc-tag { color: var(--color-gray-170, #A1A1AA); }
+    .zsc-item-title { margin-top: 8px; }
+    .zsc-desc { max-width: none; margin-top: 24px; padding: 0; }
+    .zsc-note { margin-top: 12px; }
+}
+
+@media (max-width: 680px) {
+    .zsc { --zsc-gutter: 16px; padding: 48px 0; }
+    .zsc-card { padding: 0 20px; }
+    .zsc-card-title { font-size: 22px; line-height: 30px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .zsc-card--own::before { transition: none; }
+}
