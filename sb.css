@@ -1,0 +1,291 @@
+/* ZeeFrames — "Чем сайт отличается от площадок?"
+   Composition after Formio's "From chaos to clarity": a dark bento, each cell
+   holds a problem on top and its answer pinned to the bottom, one tall contrast
+   cell on the right and a glass bubble sitting on the seam.
+   Built from zeeframes.com parts:
+   - section header of the service pages (.tool-section-header);
+   - the "What's included" bento (.services-offer-grid): joined dark cells with
+     1 px inner lines, the white CTA cell that turns lime on hover, 44 px icon box;
+   - the FAQ plus icon and hairline, the uppercase card label (.work-type-card__label);
+   - the glossy bubble of the home hero.
+   Classes are prefixed .zsb-. No JavaScript. */
+
+.zsb {
+    --zsb-primary: var(--color-primary, #F3FE00);
+    --zsb-bg: var(--color-black-300, #0B0B0B);
+    --zsb-cell: var(--color-black-210, #1F1F1F);
+    --zsb-line: var(--color-gray-muted, #373737);
+    --zsb-ink: var(--color-white, #FFFFFF);
+    --zsb-ink-2: var(--color-gray-165, #D4D4D8);
+    --zsb-muted: var(--color-base-muted, #797A71);
+    --zsb-hero: var(--color-white, #FFFFFF);
+    --zsb-hero-ink: var(--color-gray-800, #27272A);
+    --zsb-hero-text: var(--color-gray-650, #52525B);
+    --zsb-glow: radial-gradient(circle,
+        rgba(243, 254, 0, .55) 0%, rgba(243, 254, 0, .25) 22%,
+        rgba(243, 254, 0, .08) 50%, transparent 72%);
+
+    position: relative;
+    padding: 60px 0 72px;
+    background: var(--zsb-bg);
+    color: var(--zsb-ink);
+    font-family: "Inter Tight", sans-serif;
+    -webkit-font-smoothing: antialiased;
+}
+
+.zsb *, .zsb *::before, .zsb *::after { box-sizing: border-box; margin: 0; padding: 0; }
+.zsb ul { list-style: none; }
+.zsb :focus-visible { outline: 2px solid var(--zsb-primary); outline-offset: 2px; }
+
+.zsb-container { max-width: 1400px; margin: 0 auto; padding: 0 var(--zsb-gutter, 60px); }
+
+/* ── header: .tool-section-header ── */
+.zsb-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 32px;
+    padding-bottom: 48px;
+}
+.zsb-eyebrow { font-family: Inter, sans-serif; font-size: 14px; line-height: 20px; color: var(--zsb-primary); }
+.zsb-title {
+    max-width: 640px;
+    margin-top: 16px;
+    font-size: 36px;
+    line-height: 44px;
+    font-weight: 500;
+    letter-spacing: -0.72px;
+}
+.zsb-title span { color: var(--zsb-muted); }
+.zsb-desc { max-width: 520px; font-family: Inter, sans-serif; font-size: 16px; line-height: 24px; color: var(--zsb-ink-2); }
+
+/* ── bento ── */
+.zsb-stage { position: relative; }
+
+.zsb-bento {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) minmax(0, 0.92fr);
+    /* two bento rows, each split into problem / free space / answer so the
+       answers of neighbouring cells start on one line (subgrid) */
+    grid-template-rows: auto minmax(56px, 1fr) auto auto minmax(56px, 1fr) auto;
+    gap: 1px;
+    background: var(--zsb-line);           /* the 1 px inner lines */
+    border: 1px solid var(--zsb-line);
+    border-radius: 14px;
+    overflow: hidden;
+}
+
+.zsb-cell {
+    position: relative;
+    grid-row: span 3;
+    display: grid;
+    grid-template-rows: subgrid;
+    row-gap: 0;
+    padding: 28px;
+    background: var(--zsb-cell);
+    overflow: hidden;
+    isolation: isolate;
+}
+
+/* lime glow from the corner on hover, as the dark bento cells */
+.zsb-cell::before {
+    content: "";
+    position: absolute;
+    right: -260px;
+    bottom: -260px;
+    width: 520px;
+    height: 520px;
+    border-radius: 50%;
+    background: var(--zsb-glow);
+    filter: blur(40px);
+    opacity: 0;
+    transition: opacity .3s ease;
+    z-index: -1;
+    pointer-events: none;
+}
+.zsb-cell:hover::before { opacity: .55; }
+
+.zsb-kicker {
+    display: block;
+    margin-bottom: 14px;
+    font-family: Inter, sans-serif;
+    font-size: 12px;
+    line-height: 18px;
+    letter-spacing: 0.48px;
+    text-transform: uppercase;
+    color: var(--zsb-muted);
+}
+.zsb-problem {
+    max-width: 380px;
+    font-size: 24px;
+    line-height: 30px;
+    font-weight: 500;
+    letter-spacing: -0.36px;
+    color: var(--zsb-ink);
+}
+.zsb-problem-text {
+    max-width: 360px;
+    margin-top: 10px;
+    font-family: Inter, sans-serif;
+    font-size: 14px;
+    line-height: 21px;
+    color: var(--zsb-muted);
+}
+
+/* the answer pinned to the bottom of the cell */
+.zsb-cell > :last-child { grid-row: 3; }
+.zsb-answer { align-self: start; padding-top: 20px; border-top: 1px solid rgba(255, 255, 255, .08); }
+.zsb-answer-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: Inter, sans-serif;
+    font-size: 12px;
+    line-height: 18px;
+    letter-spacing: 0.48px;
+    text-transform: uppercase;
+    color: var(--zsb-primary);
+}
+.zsb-answer-label svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; }
+.zsb-answer-title {
+    margin-top: 10px;
+    font-size: 16px;
+    line-height: 22px;
+    font-weight: 500;
+    color: var(--zsb-ink);
+}
+.zsb-answer-text {
+    margin-top: 6px;
+    font-family: Inter, sans-serif;
+    font-size: 14px;
+    line-height: 21px;
+    color: var(--zsb-ink-2);
+    opacity: .8;
+}
+.zsb-nw { white-space: nowrap; }
+
+/* ── the contrast cell: .service-offer-cta, lime on hover ── */
+.zsb-cell--hero {
+    grid-column: 3;
+    grid-row: 1 / span 6;
+    grid-template-rows: 1fr auto;
+    padding: 32px;
+    background: var(--zsb-hero);
+    color: var(--zsb-hero-ink);
+    transition: background-color .3s ease;
+}
+.zsb-cell--hero::before { display: none; }
+.zsb-cell--hero > :last-child { grid-row: 2; }
+.zsb-cell--hero:hover { background: var(--zsb-primary); }
+
+.zsb-icon {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 8px;
+    background: #000;
+    border: 1px solid rgba(243, 254, 0, .2);
+}
+.zsb-icon svg { width: 22px; height: 22px; fill: none; stroke: #fff; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+
+.zsb-hero-label {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 4px;
+    background: var(--zsb-hero-ink);
+    font-family: Inter, sans-serif;
+    font-size: 12px;
+    line-height: 18px;
+    letter-spacing: 0.48px;
+    text-transform: uppercase;
+    color: var(--zsb-primary);
+}
+.zsb-hero-title {
+    margin-top: 18px;
+    font-size: 36px;
+    line-height: 42px;
+    font-weight: 500;
+    letter-spacing: -0.72px;
+}
+.zsb-hero-text {
+    margin-top: 14px;
+    font-family: Inter, sans-serif;
+    font-size: 16px;
+    line-height: 24px;
+    color: var(--zsb-hero-text);
+}
+.zsb-cell--hero:hover .zsb-hero-text { color: var(--zsb-hero-ink); }
+
+.zsb-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 28px;
+    padding: 12px 14px 12px 22px;
+    border-radius: 999px;
+    background: #000;
+    color: #fff;
+    font-family: Inter, sans-serif;
+    font-size: 15px;
+    line-height: 20px;
+    font-weight: 500;
+    text-decoration: none;
+}
+.zsb-btn span {
+    display: grid;
+    place-items: center;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: var(--zsb-primary);
+    color: #000;
+}
+.zsb-btn svg { width: 12px; height: 12px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+
+/* ── glass bubble on the seam between the grid and the contrast cell ── */
+.zsb-bubble {
+    position: absolute;
+    top: 64px;
+    left: calc((100% - 2px) * 2 / 2.92 - 46px);
+    width: 188px;
+    height: 188px;
+    border-radius: 50%;
+    pointer-events: none;
+    background:
+        radial-gradient(circle at 30% 24%, rgba(255, 255, 255, .95) 0 4%, rgba(255, 255, 255, .5) 9%, transparent 20%),
+        radial-gradient(circle at 72% 80%, rgba(243, 254, 0, .9) 0%, rgba(243, 254, 0, .35) 18%, transparent 42%),
+        radial-gradient(circle at 50% 50%, transparent 60%, rgba(255, 255, 255, .35) 69%, rgba(255, 255, 255, .85) 71.5%, rgba(255, 255, 255, .15) 73%, transparent 74%),
+        radial-gradient(circle at 40% 36%, rgba(255, 255, 255, .10), rgba(120, 120, 110, .22) 62%, rgba(20, 20, 18, .35) 72%);
+    box-shadow: inset -18px -22px 40px rgba(243, 254, 0, .28), inset 14px 16px 34px rgba(255, 255, 255, .35), 0 24px 48px rgba(0, 0, 0, .28);
+    backdrop-filter: blur(6px) saturate(1.3);
+    -webkit-backdrop-filter: blur(6px) saturate(1.3);
+}
+
+.zsb-note { margin-top: 16px; font-family: Inter, sans-serif; font-size: 12px; line-height: 18px; color: var(--zsb-muted); }
+
+/* ── tablet: two columns, the contrast cell becomes a band below ── */
+@media (max-width: 1100px) {
+    .zsb { --zsb-gutter: 40px; }
+    .zsb-head { flex-direction: column; align-items: flex-start; gap: 16px; }
+    .zsb-bento { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: none; grid-auto-rows: auto 48px auto; }
+    .zsb-cell--hero { grid-column: 1 / -1; grid-row: span 3; min-height: 300px; }
+    .zsb-bubble { top: auto; bottom: 200px; left: auto; right: 24px; width: 132px; height: 132px; }
+}
+
+/* ── phone: one column ── */
+@media (max-width: 680px) {
+    .zsb { --zsb-gutter: 16px; padding: 48px 0 56px; }
+    .zsb-title { font-size: 28px; line-height: 34px; letter-spacing: -0.5px; }
+    .zsb-bento { grid-template-columns: 1fr; grid-auto-rows: auto 32px auto; }
+    .zsb-cell { padding: 24px; }
+    .zsb-cell--hero { min-height: 0; }
+    .zsb-problem { font-size: 21px; line-height: 27px; }
+    .zsb-hero-title { font-size: 28px; line-height: 34px; }
+    .zsb-bubble { width: 96px; height: 96px; bottom: auto; top: auto; right: 12px; }
+    .zsb-bubble { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .zsb-cell::before, .zsb-cell--hero { transition: none; }
+}
